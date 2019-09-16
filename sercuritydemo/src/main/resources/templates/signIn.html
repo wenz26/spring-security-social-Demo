@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<h2>标准登录页面</h2>
+<h3>表单登录</h3>
+<form th:action="@{/authentication/form}" method="post">
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>图形验证码:</td>
+            <td>
+                <input type="text" name="imageCode">
+                <img th:src="@{/code/image}">
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2'><input name="remember-me" type="checkbox" value="true"/>记住我</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">登录</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<h3>短信登录</h3>
+<div id="test">
+    <p>{{time}}</p>
+    <form th:action="@{/authentication/mobile}" method="post" id="smsfrom">
+        <table>
+            <tr>
+                <td>手机号:</td>
+                <td><input type="text" name="mobile" value="13012345678" id="mobile"></td>
+            </tr>
+            <tr>
+                <td>短信验证码:</td>
+                <td>
+                    <input type="text" name="smsCode" id="smsCode">
+                    <a href="#" onclick="getcode()">发送验证码</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">登录</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br>
+<h3>社交登录</h3>
+<a th:href="@{/qqLogin/qq}">QQ登录</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a th:href="@{/qqLogin/weixin}">微信登录</a>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    /*import axios from 'axios'
+
+    const url = '/code/sms/13012345678';*/
+
+    new Vue({
+        el: '#test',
+        data: {
+            time: new Date(),
+            code: ''
+        },
+
+        /*axios: axios.get(url).then(
+                Response => {
+                    this.code = Response.data
+                    alert(this.code)
+        }).catch(error => {
+            alert("请求失败！！！")
+        })*/
+    })
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    /*var mobile = document.getElementById("mobile").innerHTML;
+    alert(mobile)*/
+    function getcode() {
+        $.ajax({
+            type: "get",
+            url: "/code/sms/13012345678",
+            success: function (data) {
+                $("#smsCode").val(data);
+                alert(data)
+            }
+
+        })
+    }
+
+</script>
+
+</body>
+
+</html>
