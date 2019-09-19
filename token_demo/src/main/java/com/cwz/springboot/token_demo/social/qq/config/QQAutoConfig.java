@@ -33,7 +33,7 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
         return new QQConnectionFactory(qqConfig.getProviderId(), qqConfig.getAppId(), qqConfig.getAppSecret());
     }
 
-    @Bean("connect/qqConnected")
+    @Bean({"connect/qqConnect", "connect/qqConnected"})
     // @ConditionalOnMissingBean(MyConnectView.class)
     public View qqConnectedView(){
         return new MyConnectView();

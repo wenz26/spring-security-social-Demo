@@ -2,25 +2,32 @@ package com.cwz.springboot.token_demo.social.qq.config;
 
 
 import com.cwz.springboot.token_demo.social.qq.config.filter.SocialAuthenticationFilterPostProcessor;
+import com.cwz.springboot.token_demo.social.qq.helper.HttpHelper;
 import com.cwz.springboot.token_demo.social.qq.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 @Configuration
@@ -106,6 +113,22 @@ public class SocialConfig extends SocialConfigurerAdapter {
         return new ProviderSignInUtils(connectionFactoryLocator,
                 getUsersConnectionRepository(connectionFactoryLocator));
 
+    }
+
+    @Bean
+    //@Scope(value = "request")
+    public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
+                                               ConnectionRepository connectionRepository) throws Exception {
+        logger.info("初始化 ConnectController 类");
+        //HttpServletRequest request = HttpHelper.getRequest();
+        ConnectController connectController = new ConnectController(connectionFactoryLocator, connectionRepository);
+        //connectController.setApplicationUrl("http://www.czodly.top/qqLogin");
+
+        //connectController.connect(securityProperties.getSocialqq().getQq().getProviderId(), new ServletWebRequest(request));
+        //connectController.oauth2Callback(securityProperties.getSocialqq().getQq().getProviderId(), new ServletWebRequest(request));
+
+
+        return connectController;
     }
 
 }

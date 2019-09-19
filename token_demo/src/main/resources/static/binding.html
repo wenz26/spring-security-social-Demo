@@ -6,8 +6,16 @@
 </head>
 <body>
     <h1>绑定第三方应用页面(QQ)</h1>
-    <form action="/connect/qq" method="post">
+    <form action="/connect/qq" method="post" >
         <button type="submit">绑定(QQ)</button>
     </form>
+
+    <hr>
+    <h1>解绑第三方应用页面(QQ)</h1>
+    <form action="/connect/qq" method="post">
+        <input type="text" name="_method" value="DELETE" hidden="hidden">
+        <input type="submit" value="解绑">
+    </form>
+
 </body>
 </html>

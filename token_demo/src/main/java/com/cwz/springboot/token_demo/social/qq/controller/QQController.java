@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -32,6 +33,9 @@ public class QQController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /*@Autowired
+    private ConnectController connectController;*/
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -94,5 +98,9 @@ public class QQController {
 //        response.sendRedirect(bindUrl + "?mkey=" + uuid);
     }
 
-
+    /*@PostMapping("/connect/qq")
+    public void getConnect(HttpServletRequest request){
+        connectController.connect("qq", new ServletWebRequest(request));
+        connectController.oauth2Callback("qq", new ServletWebRequest(request));
+    }*/
 }
